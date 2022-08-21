@@ -1,0 +1,24 @@
+{
+    "intents": [
+        {
+            "tag": "greet",
+            "patterns": [ "hey", "hi", "hello there", "good day", "howdy" ],
+            "responses": [ "Hey there", "Hello", "Greetings", "Hey", "Hi", "Hello there", "Good day", "Howdy" ]
+        },
+        {
+            "tag": "open app",
+            "patterns": [ "open", "launch", "start", "open app", "launch app", "start app" ],
+            "responses": [ "Opening app", "Launching app", "Starting app", "Opening app", "Launching app", "Starting app" ]
+        },
+        {
+            "tag": "nothing",
+            "patterns": [ "do nothing", "nothing", "no", "not you" ],
+            "responses": [ "Ok" ]
+        },
+        {
+            "tag": "exit",
+            "patterns": [ "exit", "quit", "goodbye", "bye", "good bye", "see you later", "see you later" ],
+            "responses": [ "Bye", "Goodbye", "See you later", "Bye", "Goodbye", "See you later" ]
+        }
+    ]
+}
