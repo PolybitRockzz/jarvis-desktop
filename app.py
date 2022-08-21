@@ -5,6 +5,7 @@ from pydub import AudioSegment
 from pydub.playback import play
 import os
 from win10toast import ToastNotifier
+from pathlib import Path
 
 recog = sr.Recognizer()
 
@@ -48,7 +49,7 @@ def listen():
                 play(logoff)
                 text = recog.recognize_google(audio)
                 print("Query >> " + text)
-                return text
+                return text.lower()
         except sr.UnknownValueError:
             speak(f"An error occured while listening, please repeat {user}")
             recog = sr.Recognizer()
@@ -60,7 +61,49 @@ def greet():
     serve()
 
 def open_app():
-    speak("Opening app")
+    folder = 'C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs'
+    subfolderPaths = [ f.path for f in os.scandir(folder) if f.is_dir() ]
+    subfolderNames = [ f.name for f in os.scandir(folder) if f.is_dir() ]
+    shortcutPaths = [ f.path for f in os.scandir(folder) if f.is_file() ]
+    shortcutNames = [ f.name[:-4] for f in os.scandir(folder) if f.is_file() ]
+
+    for i in range(len(subfolderPaths)):
+        paths = [ f.path for f in os.scandir(folder + '\\' + subfolderNames[i-1]) if f.is_file() ]
+        names = [ f.name[:-4] for f in os.scandir(folder + '\\' + subfolderNames[i-1]) if f.is_file() ]
+        shortcutPaths = shortcutPaths + paths
+        shortcutNames = shortcutNames + names
+    
+    desktop = str(Path.home()) + '\\Desktop'
+
+    desktopPaths = [ f.path for f in os.scandir(desktop) if f.is_file() ]
+    desktopNames = [ f.name[:-4] for f in os.scandir(desktop) if f.is_file() ]
+    shortcutPaths = shortcutPaths + desktopPaths
+    shortcutNames = shortcutNames + desktopNames
+
+    speak("Which application would you like to open?")
+    available = [f for f in shortcutNames]
+    while True:
+        query = listen()
+        temp = []
+        search_terms = query.split(" ")
+        for term in search_terms:
+            for filename in available:
+                if term in filename.lower():
+                    temp = temp + [filename]
+            available = temp
+            temp = []
+        if len(available) == 1:
+            speak(f"Opening {available[0]}")
+            os.startfile(shortcutPaths[shortcutNames.index(available[0])])
+            break
+        elif len(available) == 0:
+            speak(f"I could not find {query}, please try again")
+            available = [f for f in shortcutNames]
+        elif len(available) > 1:
+            speak(f"There are {len(available)} applications available")
+            for name in available:
+                speak(name)
+            speak("Could you be more specific about which one you would like to open?")
 
 def nothing():
     speak("Ohh sorry")

@@ -17,7 +17,7 @@
         },
         {
             "tag": "exit",
-            "patterns": [ "exit", "quit", "goodbye", "bye", "good bye", "see you later", "see you later" ],
+            "patterns": [ "exit", "quit", "kuwait", "goodbye", "bye", "good bye", "see you later", "see you later" ],
             "responses": [ "Bye", "Goodbye", "See you later", "Bye", "Goodbye", "See you later" ]
         }
     ]
