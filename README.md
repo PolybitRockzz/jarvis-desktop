@@ -2,7 +2,7 @@
 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-%23FF6F00.svg?style=for-the-badge&logo=TensorFlow&logoColor=white)
-![License](https://img.shields.io/github/license/polybit-tech/jarvis-desktop?style=for-the-badge&logo=appveyor)
+![License](https://img.shields.io/github/license/polybit-tech/jarvis-desktop?style=for-the-badge)
 
 A simple Python program for an Intelligent Desktop Assistant to help with the users' workflow.
 Inspired by Jarvis, a fictional AI assistant made by Tony Stark in the Marvel Cinematic Universe *(Iron Man 2008 - Avengers: Age Of Utron 2015)*.
