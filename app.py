@@ -57,7 +57,7 @@ def listen():
 # mappings functions
 
 def greet():
-    speak(f"Hello {user}, I am your personal assistant. How may I help you?")
+    speak(f"Hello {user}, I am your personal assistant, JARVIS. How may I help you?")
     serve()
 
 def open_app():
@@ -84,6 +84,9 @@ def open_app():
     available = [f for f in shortcutNames]
     while True:
         query = listen()
+        if "quit" in query:
+            speak("Okay")
+            break
         temp = []
         search_terms = query.split(" ")
         for term in search_terms:
@@ -98,12 +101,19 @@ def open_app():
             break
         elif len(available) == 0:
             speak(f"I could not find {query}, please try again")
+            speak(f"If {query} is installed in this machine, try adding it to the desktop or start menu")
             available = [f for f in shortcutNames]
         elif len(available) > 1:
             speak(f"There are {len(available)} applications available")
             for name in available:
                 speak(name)
             speak("Could you be more specific about which one you would like to open?")
+
+def time():
+    import datetime
+    hr12 = datetime.datetime.now().strftime("%I:%M %p")
+    hr24 = datetime.datetime.now().strftime("%H:%M")
+    speak("The time now is " + hr24 + "hours, or " + hr12)
 
 def nothing():
     speak("Ohh sorry")
@@ -115,6 +125,7 @@ def bye():
 mappings = {
     'greet': greet,
     'open app': open_app,
+    'time': time,
     'nothing': nothing,
     'exit':bye
 }

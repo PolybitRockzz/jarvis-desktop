@@ -11,6 +11,11 @@
             "responses": [ "Opening app", "Launching app", "Starting app", "Opening app", "Launching app", "Starting app" ]
         },
         {
+            "tag": "time",
+            "patterns": [ "tell time", "what is the time", "how much is time" ],
+            "responses": [ "The time is..." ]
+        },
+        {
             "tag": "nothing",
             "patterns": [ "do nothing", "nothing", "no", "not you" ],
             "responses": [ "Ok" ]
