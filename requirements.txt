@@ -5,3 +5,4 @@ PyAudio==0.2.12
 pyttsx3==2.90
 SpeechRecognition==3.8.1
 pydub==0.25.1
+datefinder==0.7.3

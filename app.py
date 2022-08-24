@@ -6,6 +6,9 @@ from pydub.playback import play
 import os
 from win10toast import ToastNotifier
 from pathlib import Path
+from datetime import datetime, timedelta
+import datefinder
+import json
 
 recog = sr.Recognizer()
 
@@ -14,6 +17,8 @@ tts.setProperty('voice', 'english+f1')
 tts.setProperty('rate', 200)
 
 user = os.getlogin()
+
+reminders = json.load(open('reminders.json'))
 
 def speak(text):
     tts.say(text)
@@ -88,7 +93,7 @@ def open_app():
     available = [f for f in shortcutNames]
     while True:
         query = listen()
-        if "quit" in query:
+        if "quit" in query or "exit" in query:
             speak("Okay")
             break
         temp = []
@@ -113,6 +118,68 @@ def open_app():
                 speak(name)
             speak("Could you be more specific about which one you would like to open?")
 
+def reminder():
+    speak("What would you like to be reminded of?")
+    query = listen()
+    if "quit" in query or "exit" in query:
+        speak("Okay")
+        return
+    date_time = None
+    while True:
+        speak("At what date and time?")
+        time = listen()
+        if "quit" in time or "exit" in time:
+            speak("Okay")
+            return
+        time = time.replace("today", datetime.now().strftime("%Y-%m-%d")).replace("tomorrow", (datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d"))
+        date_time = list(datefinder.find_dates(time))
+        if len(date_time) == 0:
+            speak("I could not understand the date and time, please try again")
+            continue
+        else:
+            if date_time[0].date() < datetime.now().date():
+                speak("I cannot schedule a reminder for a date in the past")
+                continue
+            elif date_time[0].time() <= datetime.now().time():
+                speak("I cannot schedule a reminder for a time in the past")
+                continue
+            elif date_time[0].time() == None:
+                speak("I could not understand the time, please try again")
+                continue
+            elif date_time[0].date() == None:
+                speak("I could not understand the date, please try again")
+                continue
+        speak(f"Okay, shall I remind you to {query} at {date_time[0].strftime('%H:%M on %d %B %Y')}?")
+        confirm = listen()
+        if "yes" in confirm or "sure" in confirm or "ok" in confirm or "yeah" in confirm:
+            speak(f"Okay, I will remind you to {query} at {date_time[0].strftime('%H:%M on %d %B %Y')}")
+            timedata = date_time[0].strftime('%d-%B-%Y %H-%M')
+            reminders["reminders"].append({"query": query, "time": timedata})
+            update_reminders()
+            break
+        elif "no" in confirm:
+            speak("Okay")
+            return
+
+def update_reminders():
+    jsondata = json.dumps(reminders)
+    with open('reminders.json', 'w') as f:
+        f.write(jsondata)
+
+def read_reminders():
+    while True:
+        if len(reminders["reminders"]) == 0:
+            return
+        for reminder in reminders["reminders"]:
+            if reminder["time"] == datetime.now().strftime('%d-%B-%Y %H-%M'):
+                start = ToastNotifier()
+                start.show_toast(f"{reminder['query']}", f"A reminder to {reminder['query']} on {reminder['time']}", duration=10, threaded=True)
+                speak(f"{reminder['query']} on {reminder['time']}")
+                reminders["reminders"].remove(reminder)
+            elif reminder["time"] < datetime.now().strftime('%d-%B-%Y %H-%M'):
+                reminders["reminders"].remove(reminder)
+        update_reminders()
+
 def time():
     import datetime
     hr12 = datetime.datetime.now().strftime("%I:%M %p")
@@ -129,6 +196,7 @@ def bye():
 mappings = {
     'greet': greet,
     'open app': open_app,
+    'reminder': reminder,
     'time': time,
     'nothing': nothing,
     'exit':bye
@@ -148,6 +216,7 @@ if __name__ == '__main__':
     start.show_toast("JARVIS is now online 👍", "JARVIS Desktop Assistant is now successfully running in the background.", duration=10, threaded=True)
     speak("JARVIS is now online!")
     while True:
+        read_reminders()
         query = quiet_listen()
         if not query:
             speak("Did you need my help?")

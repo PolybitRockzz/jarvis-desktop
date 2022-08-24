@@ -16,6 +16,11 @@
             "responses": [ "The time is..." ]
         },
         {
+            "tag": "reminder",
+            "patterns": [ "set a reminder", "add a reminder", "schedule a reminder" ],
+            "responses": [ "Scheduling a reminder" ]
+        },
+        {
             "tag": "nothing",
             "patterns": [ "do nothing", "nothing", "no", "not you" ],
             "responses": [ "Ok" ]

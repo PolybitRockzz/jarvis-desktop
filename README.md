@@ -19,6 +19,7 @@ python app.py
 ## Features
 - Can tell time (both 12h and 24h format)
 - Can open installed apps, if present in Desktop or Start Menu
+- Can schedule reminders
 - *More features coming soon...*
 
 ## Contributors
