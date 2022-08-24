@@ -15,3 +15,12 @@ cd jarvis-desktop
 pip install -r requirements.txt
 python app.py
 ```
+
+## Features
+- Can tell time (both 12h and 24h format)
+- Can open installed apps, if present in Desktop or Start Menu
+- *More features coming soon...*
+
+## Contributors
+
+**Swastik "Polybit" Biswas** (Head Contributor)

@@ -27,6 +27,8 @@ def quiet_listen():
     while True:
         try:
             with sr.Microphone() as mic:
+                recog.adjust_for_ambient_noise(mic)
+                recog.pause_threshold = 0.5
                 audio = recog.listen(mic, timeout=10)
                 text = recog.recognize_google(audio)
                 print("> " + text)
@@ -37,13 +39,15 @@ def quiet_listen():
         except sr.UnknownValueError:
             recog = sr.Recognizer()
         except sr.WaitTimeoutError:
-            print("...")
+            pass
 
 def listen():
     global recog
     while True:
         try:
             with sr.Microphone() as mic:
+                recog.adjust_for_ambient_noise(mic)
+                recog.pause_threshold = 0.5
                 play(logon)
                 audio = recog.listen(mic)
                 play(logoff)
