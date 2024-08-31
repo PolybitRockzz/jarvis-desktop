@@ -7,6 +7,9 @@
 A simple Python program for an Intelligent Desktop Assistant to help with the users' workflow.
 Inspired by Jarvis, a fictional AI assistant made by Tony Stark in the Marvel Cinematic Universe *(Iron Man 2008 - Avengers: Age Of Utron 2015)*.
 
+> [!IMPORTANT]
+> This project is now archived and deprecated. An improved assistant app is available [here](https://github.com/PolybitRockzz/jarvis).
+
 ## Installation
 Make sure you have Git and Python 3 installed
 ```

@@ -1,4 +1,4 @@
-from neuralintents import GenericAssistant
+from neuralintents.assistants import BasicAssistant
 import speech_recognition as sr
 import pyttsx3
 from pydub import AudioSegment
@@ -9,6 +9,10 @@ from pathlib import Path
 from datetime import datetime, timedelta
 import datefinder
 import json
+import nltk
+
+nltk.download('punkt')
+nltk.download('punkt_tab')
 
 recog = sr.Recognizer()
 
@@ -202,8 +206,8 @@ mappings = {
     'exit':bye
 }
 
-assistant = GenericAssistant('intents.json', intent_methods=mappings)
-assistant.train_model()
+assistant = BasicAssistant('intents.json', method_mappings=mappings)
+assistant.fit_model(epochs=100)
 # assistant.save_model()
 
 def serve():

@@ -1,8 +1,7 @@
-pip==22.2.2
-win10toast==0.9
-neuralintents==0.0.4
-PyAudio==0.2.12
-pyttsx3==2.90
-SpeechRecognition==3.8.1
-pydub==0.25.1
-datefinder==0.7.3
+win10toast
+neuralintents
+PyAudio
+pyttsx3
+SpeechRecognition
+pydub
+datefinder
